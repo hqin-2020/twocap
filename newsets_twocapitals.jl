@@ -609,11 +609,11 @@ if compute_irfs == 1
     println("=============================================================")
 end
 
-filename_ell = replace(string(round(ell_ex,digits=3)),"." => "")
+# filename_ell = replace(string(round(ell_ex,digits=3)),"." => "")
 
 # CSV.write("./output/para_" * filename_ell*"_"*"g.csv",  Tables.table(g), writeheader=false)
-CSV.write("./output/para_" * filename_ell*"_"*"d1.csv",  Tables.table(d1), writeheader=false)
-CSV.write("./output/para_" * filename_ell*"_"*"d2.csv",  Tables.table(d2), writeheader=false)
+# CSV.write("./output/para_" * filename_ell*"_"*"d1.csv",  Tables.table(d1), writeheader=false)
+# CSV.write("./output/para_" * filename_ell*"_"*"d2.csv",  Tables.table(d2), writeheader=false)
 # CSV.write("./output/para_" * filename_ell*"_"*"h1.csv",  Tables.table(h1), writeheader=false)
 # CSV.write("./output/para_" * filename_ell*"_"*"h2.csv",  Tables.table(h2), writeheader=false)
 # CSV.write("./output/para_" * filename_ell*"_"*"hz.csv",  Tables.table(hz), writeheader=false)
