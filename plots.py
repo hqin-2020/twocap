@@ -140,7 +140,7 @@ fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 2)
 fig.add_trace(go.Surface(z=res['V'].T, x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'V', showlegend=True), row = 1, col = 3)
 fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='V', zaxis = dict(nticks=4, tickformat= ".2f")), row = 1, col = 3)
 fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 3)
-fig.update_layout(title= 'Value Function <br><span style="font-size: 12px;"> ell_ex = '+ str(ell_ex)+'</span>',\
+fig.update_layout(title= 'Control Variable, Value Function <br><span style="font-size: 12px;"> ell_ex = '+ str(ell_ex)+'</span>',\
               title_x = 0.5, title_y = 0.97, height=500, width=1200, title_yanchor = 'top')
 fig.update_layout(margin=dict(t=75))
 fig.write_json('doc/' + figname+"/3d.json")
