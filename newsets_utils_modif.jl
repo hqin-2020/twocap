@@ -874,6 +874,7 @@ function value_function_twocapitals(gamma::Float64,
 
       # Choice variables (capital ratio and worst-case drift)
       d1, d2 = zeros(II, JJ), zeros(II, JJ);
+      d1, d2 = 0.002*ones(II, JJ), 0.002*ones(II, JJ);
       h1, h2, hz = zeros(II, JJ), zeros(II, JJ), zeros(II, JJ);
 
       # Drifts
