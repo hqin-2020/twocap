@@ -47,6 +47,8 @@ elif optimize_over_ell == 1:
     filename_ell = "azt_"+str(alpha_z_tilde_ex).replace(".","")[:5]+"_ell_opt_"
 
 npz = np.load("output/" + filename_ell + filename)
+figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)
+os.makedirs('doc/' + figname,exist_ok=True)
 def trans(x):
     return np.exp(x)/(np.exp(x)+1)
 def read_csv(name):
@@ -73,13 +75,7 @@ if optimize_over_ell == 0:
 elif optimize_over_ell == 1:
     ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell^\star$'+'='+str(npz['ell_star'])[:8])
 fig.tight_layout()
-
-if optimize_over_ell == 0:
-    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/h.png"
-elif optimize_over_ell == 1:
-    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/h.png"
-
-fig.savefig('doc/' + figname, dpi = 400)
+fig.savefig('doc/' + figname+'/h.png', dpi = 400)
 plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
@@ -93,13 +89,7 @@ if optimize_over_ell == 0:
 elif optimize_over_ell == 1:
     ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell^\star$'+'='+str(npz['ell_star'])[:8])
 fig.tight_layout()
-
-if optimize_over_ell == 0:
-    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/d.png"
-elif optimize_over_ell == 1:
-    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/d.png"
-
-fig.savefig('doc/' + figname, dpi = 400)
+fig.savefig('doc/' + figname+'/d.png', dpi = 400)
 plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
@@ -114,12 +104,7 @@ elif optimize_over_ell == 1:
     ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell^\star$'+'='+str(npz['ell_star'])[:8])
 fig.tight_layout()
 
-if optimize_over_ell == 0:
-    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/v.png"
-elif optimize_over_ell == 1:
-    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/v.png"
-
-fig.savefig('doc/' + figname, dpi = 400)
+fig.savefig('doc/' + figname+'/v.png', dpi = 400)
 plt.close()
 
 
@@ -157,10 +142,6 @@ fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='V', zaxis 
 fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 3)
 
 fig.update_layout(margin=dict(t=75))
-if optimize_over_ell == 0:
-    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/v.png"
-elif optimize_over_ell == 1:
-    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/v.png"
 fig.write_json('doc/' + figname+"/3d.json")
 fig.write_image('doc/' + figname+"/3d.png")
         
