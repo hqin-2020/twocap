@@ -726,6 +726,13 @@ function create_Aval!(Aval, d_, c_, e_, b_, f_, a_1, a_2, II, JJ)
     #          -II-1 => a_1[II+2:end],
     #           II+1 => a_2[1:II*(JJ-1)-1]);
 
+    # A = spdiagm( 0 => ones(II*JJ),
+    #                1 => ones(II*JJ-1),
+    #               -1 => ones(II*JJ-1),
+    #               II => ones(II*(JJ-1)),
+    #              -II => ones(II*(JJ-1)),
+    #            -II-1 => ones(II*(JJ-1)-1),
+    #             II+1 => ones(II*(JJ-1)-1));
 
 
     iter = 1
@@ -938,7 +945,6 @@ function value_function_twocapitals(gamma::Float64,
 
 	      # FLOW TERM
           create_uu!(uu, gamma, rho, d1, d2, h1, h2, hz, mu_1, pii, zz, IJ, V, model);
-
 
           #CONSTRUCT MATRIX A
           a_1 = ones(II, JJ)*t2;
