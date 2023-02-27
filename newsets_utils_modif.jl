@@ -570,7 +570,8 @@ function dstar_twocapitals!(d1::Array{Float64,2},
 
         d1_temp = d1new * fraction + d1old *(1-fraction);
         d2_temp = d2new * fraction + d2old *(1-fraction);
-
+        d1[i] = d1_temp;
+        d2[i] = d2_temp;
         # if d1_temp<0
         #     d1[i] = 0.001;
         # else
