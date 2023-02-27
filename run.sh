@@ -47,7 +47,7 @@ for Delta in ${Deltaarray[@]}; do
 #SBATCH --mem=2G
 
 module load julia/1.7.3
-srun julia /home/hqin/twist/$julia_name  --Delta ${Delta} --fraction ${fraction} --gamma ${gamma} --rho ${rho} --dataname ${dataname}
+srun julia /home/hqin/twocap/$julia_name  --Delta ${Delta} --fraction ${fraction} --gamma ${gamma} --rho ${rho} --dataname ${dataname}
 EOF
                 count=$(($count + 1))
                 sbatch ./bash/${action_name}/Delta_${Delta}_frac_${fraction}/rho_${rho}_gamma_${gamma}.sh
