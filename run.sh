@@ -44,7 +44,7 @@ for Delta in ${Deltaarray[@]}; do
 #SBATCH --partition=caslake
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=8G
+#SBATCH --mem=2G
 
 module load julia/1.7.3
 srun julia /home/hqin/twist/$julia_name  --Delta ${Delta} --fraction ${fraction} --gamma ${gamma} --rho ${rho} --dataname ${dataname}
