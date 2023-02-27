@@ -1,5 +1,7 @@
 import os
 import sys
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 import numpy as np
 np.set_printoptions(suppress=True)
 np.set_printoptions(linewidth=200)
@@ -73,9 +75,9 @@ elif optimize_over_ell == 1:
 fig.tight_layout()
 
 if optimize_over_ell == 0:
-    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz.png"
+    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/h.png"
 elif optimize_over_ell == 1:
-    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz.png"
+    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/h.png"
 
 fig.savefig('doc/' + figname, dpi = 400)
 plt.close()
@@ -93,9 +95,9 @@ elif optimize_over_ell == 1:
 fig.tight_layout()
 
 if optimize_over_ell == 0:
-    figname = "dazt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz.png"
+    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/d.png"
 elif optimize_over_ell == 1:
-    figname =  "dazt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz.png"
+    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/d.png"
 
 fig.savefig('doc/' + figname, dpi = 400)
 plt.close()
@@ -113,9 +115,52 @@ elif optimize_over_ell == 1:
 fig.tight_layout()
 
 if optimize_over_ell == 0:
-    figname = "Vazt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz.png"
+    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/v.png"
 elif optimize_over_ell == 1:
-    figname =  "Vazt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz.png"
+    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/v.png"
 
 fig.savefig('doc/' + figname, dpi = 400)
 plt.close()
+
+
+res = npz
+W1 = trans(np.linspace(-18,18,1001))
+W2 = np.linspace(-1,1,201)
+var_name = ['Investment over Capital', 'Consumption over Capital', 'Log Value Function']
+
+plot_row_dims      = 1
+plot_col_dims      = 3
+
+plot_color_style   = ['Viridis', 'Plasma']
+plot_color_style   = ['blues','reds', 'greens']
+
+subplot_titles = []
+subplot_types = []
+for row in range(plot_row_dims):
+    subplot_type = []
+    for col in range(plot_col_dims):
+        subplot_titles.append(var_name[col])
+        subplot_type.append({'type': 'surface'})
+    subplot_types.append(subplot_type)
+spacing = 0.1
+fig = make_subplots(rows=plot_row_dims, cols=plot_col_dims, horizontal_spacing=spacing, vertical_spacing=spacing, subplot_titles=(subplot_titles), specs=subplot_types)
+fig.add_trace(go.Surface(z=res['d1'].T, x=W1, y=W2, colorscale=plot_color_style[0], showscale=False, name= 'd1', showlegend=True), row = 1, col = 1)
+fig.add_trace(go.Surface(z=res['d2'].T, x=W1, y=W2, colorscale=plot_color_style[1], showscale=False, name= 'd2', showlegend=True), row = 1, col = 1)
+fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='d', zaxis = dict(nticks=4, range=[0.0,0.06], tickformat= ".2f")), row = 1, col = 1)
+
+fig.add_trace(go.Surface(z=res['cons'].T, x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'c', showlegend=True), row = 1, col = 2)
+fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='c', zaxis = dict(nticks=4, range=[0.0,0.06], tickformat= ".2f")), row = 1, col = 2)
+fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 2)
+
+fig.add_trace(go.Surface(z=res['V'].T, x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'V', showlegend=True), row = 1, col = 3)
+fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='V', zaxis = dict(nticks=4, tickformat= ".2f")), row = 1, col = 3)
+fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 3)
+
+fig.update_layout(margin=dict(t=75))
+if optimize_over_ell == 0:
+    figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)+"_H1H2Hz/v.png"
+elif optimize_over_ell == 1:
+    figname =  "azt_"+str(alpha_z_tilde_ex)+"_ell_opt_H1H2Hz/v.png"
+fig.write_json('doc/' + figname+"/3d.json")
+fig.write_image('doc/' + figname+"/3d.png")
+        
