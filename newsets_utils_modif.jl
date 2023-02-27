@@ -675,11 +675,11 @@ function drifts!(mu_1::Array{Float64, 2},
         mu_k1 = 1/phi1 * log(1+phi1*d1[i]) + beta1*z - eta1;
         mu_k2 = 1/phi2 * log(1+phi2*d2[i]) + beta2*z - eta2;
 
-        mu_r[i] = mu_k2 - mu_k1 - (1/2)*(dot(s_k2,s_k2) - dot(s_k1,s_k1))
+        mu_r[i] = mu_k2 - mu_k1 - (1/2)*(dot(s_k2,s_k2) - dot(s_k1,s_k1)) # B_1 in CPP
 
         mu_1[i] = mu_k1*(1-zeta)*(k1a)^(1-kappa)+
                     mu_k2*(zeta)*(k2a)^(1-kappa)+
-                    1/2*(dot(s_k1,s_k1)*dkadk1dk1 + dot(s_k2,s_k2)*dkadk2dk2 + 2*dot(s_k1,s_k2)*dkadk1dk2) 
+                    1/2*(dot(s_k1,s_k1)*dkadk1dk1 + dot(s_k2,s_k2)*dkadk2dk2 + 2*dot(s_k1,s_k2)*dkadk1dk2)  # D in CPP
     end
 
     nothing
@@ -741,7 +741,7 @@ function create_uu!(uu::Array{Float64, 1},
         c = alpha - d1[i]*k1a - d2[i]*k2a;
         penalty_term = (1-gamma)*(h1[i]^2 + h2[i]^2 + hz[i]^2)/2;
 
-        uu[i] = (delta/(1-rho)*(c^(1-rho)*(exp.(rho-1)*V[i])-1)+ penalty_term + mu_1[i]);
+        uu[i] = (delta/(1-rho)*(c^(1-rho)*(exp.((rho-1)*V[i]))-1)+ penalty_term + mu_1[i]);
     end
 
     nothing
