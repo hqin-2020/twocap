@@ -19,7 +19,7 @@ for Delta in ${Deltaarray[@]}; do
             for gamma in "${gammaarray[@]}"; do
                     count=0
 
-                    action_name="TwoCapital_julia"
+                    action_name="TwoCapital_julia_notempadj"
 
                     dataname="${action_name}_${Delta}_frac_${fraction}"
 
