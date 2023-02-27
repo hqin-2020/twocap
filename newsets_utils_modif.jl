@@ -546,15 +546,14 @@ function dstar_twocapitals!(d1::Array{Float64,2},
         end
         d1new_temp = ((1-zeta)*k1a^(1-kappa)-Vr[i]) / (delta/(1-rho)*(exp.(rho-1)*V[i])*c^(-rho)*k1a);
         d1new = (d1new_temp-1)/phi1;
-        # if d1new<0
-        #     d1new = 0.001;
-        # end
-
         d2new_temp = (zeta*k2a^(1-kappa)+Vr[i]) / (delta/(1-rho)*(exp.(rho-1)*V[i])*c^(-rho)*k2a);
         d2new = (d2new_temp-1)/phi2;
-        # if d2new<0
-        #     d2new = 0.001;
-        # end
+        if d1new<0
+            d1new = 0.001;
+        end
+        if d2new<0
+            d2new = 0.001;
+        end
         
 
         # if d1new*k1a>alpha*0.36
