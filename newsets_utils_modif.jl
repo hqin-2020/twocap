@@ -548,12 +548,12 @@ function dstar_twocapitals!(d1::Array{Float64,2},
         d1new = (d1new_temp-1)/phi1;
         d2new_temp = (zeta*k2a^(1-kappa)+Vr[i]) / (delta*(exp.(rho-1)*V[i])*c^(-rho)*k2a);
         d2new = (d2new_temp-1)/phi2;
-        if d1new<0
-            d1new = 0.001;
-        end
-        if d2new<0
-            d2new = 0.001;
-        end
+        # if d1new<0
+        #     d1new = 0.001;
+        # end
+        # if d2new<0
+        #     d2new = 0.001;
+        # end
         
 
         # if d1new*k1a>alpha*0.36
@@ -679,9 +679,7 @@ function drifts!(mu_1::Array{Float64, 2},
 
         mu_1[i] = mu_k1*(1-zeta)*(k1a)^(1-kappa)+
                     mu_k2*(zeta)*(k2a)^(1-kappa)+
-                    1/2*((s_k1[1]+s_k2[1])^2*dkadk1dk1 + 
-                    2*(s_k1[2]+s_k2[2])^2*dkadk1dk2 + 
-                    (s_k1[3]+s_k2[3])^2*dkadk2dk2);
+                    1/2*(dot(s_k1,s_k1)*dkadk1dk1 + dot(s_k2,s_k2)*dkadk2dk2 + 2*dot(s_k1,s_k2)*dkadk1dk2) 
     end
 
     nothing
@@ -743,7 +741,7 @@ function create_uu!(uu::Array{Float64, 1},
         c = alpha - d1[i]*k1a - d2[i]*k2a;
         penalty_term = (1-gamma)*(h1[i]^2 + h2[i]^2 + hz[i]^2)/2;
 
-        uu[i] = (delta/(1-rho)*c^(1-rho)*(exp.(rho-1)*V[i])+ penalty_term + mu_1[i]);
+        uu[i] = (delta/(1-rho)*(c^(1-rho)*(exp.(rho-1)*V[i])-1)+ penalty_term + mu_1[i]);
     end
 
     nothing
@@ -935,7 +933,7 @@ function value_function_twocapitals(gamma::Float64,
       # HAMILTON-JACOBI-BELLMAN EQUATION
       #========================================================================#
       mu_z = -a11*zz;
-      I_delta = sparse((1/Delta + delta/(1-rho))*I, IJ, IJ);
+      I_delta = sparse((1/Delta)*I, IJ, IJ);
 
 
       for n=1:maxit
