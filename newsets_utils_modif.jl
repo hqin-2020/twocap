@@ -533,27 +533,27 @@ function dstar_twocapitals!(d1::Array{Float64,2},
 
         d1old = copy(d1[i]);
         d2old = copy(d2[i]);
-        # if d1old<0
-        #     d1old = 0.001;
-        # end
-        # if d2old<0
-        #     d2old = 0.001;
-        # end
+        if d1old<0
+            d1old = 0.001;
+        end
+        if d2old<0
+            d2old = 0.001;
+        end
 
         c = alpha - d1old*k1a - d2old*k2a;
-        # if c<0
-        #     c= 0.001
-        # end
+        if c<0
+            c= 0.001
+        end
         d1new_temp = ((1-zeta)*k1a^(1-kappa)-Vr[i]) / (delta/(1-rho)*(exp.(rho-1)*V[i])*c^(-rho)*k1a);
         d1new = (d1new_temp-1)/phi1;
         d2new_temp = (zeta*k2a^(1-kappa)+Vr[i]) / (delta/(1-rho)*(exp.(rho-1)*V[i])*c^(-rho)*k2a);
         d2new = (d2new_temp-1)/phi2;
-        # if d1new<0
-        #     d1new = 0.001;
-        # end
-        # if d2new<0
-        #     d2new = 0.001;
-        # end
+        if d1new<0
+            d1new = 0.001;
+        end
+        if d2new<0
+            d2new = 0.001;
+        end
         
 
         # if d1new*k1a>alpha*0.36
@@ -570,23 +570,23 @@ function dstar_twocapitals!(d1::Array{Float64,2},
 
         d1_temp = d1new * fraction + d1old *(1-fraction);
         d2_temp = d2new * fraction + d2old *(1-fraction);
-        d1[i] = d1_temp;
-        d2[i] = d2_temp;
-        # if d1_temp<0
-        #     d1[i] = 0.001;
-        # else
-        #     d1[i] = d1_temp;
-        # end
-        # if d2_temp<0
-        #     d2[i] = 0.001;
-        # else
-        #     d2[i] = d2_temp;
-        # end
+        # d1[i] = d1_temp;
+        # d2[i] = d2_temp;
+        if d1_temp<0
+            d1[i] = 0.001;
+        else
+            d1[i] = d1_temp;
+        end
+        if d2_temp<0
+            d2[i] = 0.001;
+        else
+            d2[i] = d2_temp;
+        end
         
         c = alpha - d1[i]*k1a - d2[i]*k2a;
-        # if c<0
-        #     c= 0.001
-        # end
+        if c<0
+            c= 0.001
+        end
 
         # if d1_temp*k1a>alpha*0.36
         #     d1[i] = alpha*0.36/k1a-0.001;
