@@ -86,10 +86,12 @@ gb = read_benchmark('g')
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_R = g.sum(axis=1)*0.01
 g_Rb = gb.sum(axis=1)*0.01
-g_Z = g.sum(axis=0)*0.036
+newinterval = trans(np.linspace(-18,18,1001))[1:] - trans(np.linspace(-18,18,1001))[:-1]
+g_R = (g_R*0.036).iloc[1:]/newinterval
+g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
 sns.lineplot(data = g_R,label = r"$g_R$")
 sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
-ax.set_ylim([0.0,0.4])
+ax.set_ylim([0.0,2.0])
 ax.set_ylabel(r'$g_R$')
 ax.set_xlabel(r'$R$')
 ax.set_title(r'R density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
@@ -98,12 +100,14 @@ fig.savefig(figname+'/gR.png', dpi = 400)
 plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
-g_R = g.sum(axis=1)*0.01
 g_Z = g.sum(axis=0)*0.036
 g_Zb = gb.sum(axis=0)*0.036
+newinterval = trans(np.linspace(-1,1,201))[1:] - trans(np.linspace(-1,1,201))[:-1]
+g_Z = (g_Z*0.01).iloc[1:]/newinterval
+g_Zb = (g_Zb*0.01).iloc[1:]/newinterval
 sns.lineplot(data = g_Z,label = r"$g_Z$")
 sns.lineplot(data = g_Zb,label = r"$g_Z, \rho =1$", ls = '--')
-ax.set_ylim([0.0,0.4])
+ax.set_ylim([0.0,5.0])
 ax.set_ylabel(r'$g_Z$')
 ax.set_xlabel(r'$Z$')
 ax.set_title(r'Z density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
