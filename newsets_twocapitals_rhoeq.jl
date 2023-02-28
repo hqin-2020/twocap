@@ -274,9 +274,9 @@ zmin_opt = -zmax_opt;
 
 
 # (4) Iteration parameters
-maxit = 500;        # maximum number of iterations in the HJB loop
+maxit = 50000;        # maximum number of iterations in the HJB loop
 crit  = 10e-6;      # criterion HJB loop
-Delta = 1000.;      # delta in HJB algorithm
+# Delta = 1000.;      # delta in HJB algorithm
 
 
 # Initialize model objects -----------------------------------------------------
@@ -306,14 +306,13 @@ xi0, xi1, xi2 = tilting_function(worrisome, model);
 
 if symmetric_returns == 0
     if state_dependent_xi == 0
-        params.Delta = 14.;
+        params.Delta = Delta;
     elseif state_dependent_xi == 1
-        params.Delta = 17.;
+        params.Delta = Delta;
     elseif state_dependent_xi == 2
-        params.Delta = 9.5
+        params.Delta = Delta
     end
 end
-
 #==============================================================================#
 # WITH ROBUSTNESS
 #==============================================================================#

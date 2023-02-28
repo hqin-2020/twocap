@@ -2,7 +2,7 @@
 
 Deltaarray=(1000 5000 10000)
 # fractionarray=(0.1 0.05 0.01 0.005 0.001 0.0005 0.0001)
-fractionarray=(0.0)
+fractionarray=(0.0005)
 
 actiontime=1
 
