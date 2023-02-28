@@ -525,14 +525,14 @@ function dstar_twocapitals!(d1::Array{Float64,2},
         p, vr = pii[i], Vr[i]
 
         function f(d1x)
-            d2_temp = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1x)/(1-p-Vr[i])).^(-rho) - (1-p)*(A1-d1x);
+            d2_temp = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1x)/(1-p-Vr[i])).^(1/rho) - (1-p)*(A1-d1x);
             d2x = A2 - d2_temp/p
             return delta*p*exp.(V[i]*(rho-1))*((A1-d1x)*(1-p) + (A2-d2x)*p).^(-rho)  - (p+Vr[i])*(1-phi2*d2x)
         end
 
         x0 = 0.03;
         d1_root = find_zero(f, x0, Roots.Order1());
-        d2y = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1_root)/(1-p-Vr[i])).^(-rho) - (1-p)*(A1-d1_root);
+        d2y = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1_root)/(1-p-Vr[i])).^(1/rho) - (1-p)*(A1-d1_root);
         d2_root = A2 - d2y/p;
         d1[i] = d1_root;
         d2[i] = d2_root;

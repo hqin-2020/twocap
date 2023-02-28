@@ -6,7 +6,7 @@ fractionarray=(0.0)
 
 actiontime=1
 
-julia_name="newsets_twocapitals_rho.jl"
+julia_name="newsets_twocapitals_rhoeq.jl"
 
 rhoarray=(0.9 1.00001 1.1 1.2 1.3)
 
@@ -19,7 +19,7 @@ for Delta in ${Deltaarray[@]}; do
             for gamma in "${gammaarray[@]}"; do
                     count=0
 
-                    action_name="TwoCapital_julia_rho"
+                    action_name="TwoCapital_julia_rhoeq"
 
                     dataname="${action_name}_${Delta}_frac_${fraction}"
 

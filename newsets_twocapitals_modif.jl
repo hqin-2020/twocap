@@ -89,9 +89,8 @@ elseif symmetric_returns == 0
     end
 end
 
-filename_ell = "./output/"*dataname*"/"
 
-# filename_ell = "Delta_"*replace(string(round(Delta,digits=2)),"." => "")*"_fraction_"*replace(string(round(fraction,digits=4)),"." => "");
+filename_ell = "./output/"*dataname*"/"
 
 #==============================================================================#
 #  PARAMETERS

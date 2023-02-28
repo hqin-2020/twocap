@@ -89,11 +89,8 @@ elseif symmetric_returns == 0
     end
 end
 
-if optimize_over_ell == 0
-    filename_ell = "azt_"*replace(string(round(alpha_z_tilde_ex,digits=3)),"." => "")*"_ell_ex_"*replace(string(round(ell_ex,digits=3)),"." => "");
-elseif optimize_over_ell == 1
-    filename_ell = "azt_"*replace(string(round(alpha_z_tilde_ex,digits=3)),"." => "")*"_ell_opt";
-end
+filename_ell = "./output/"*dataname*"/gamma_"*string(gamma)*"_rho_"*string(rho)*"/"
+isdir(filename_ell) || mkdir(filename_ell)
 
 #==============================================================================#
 #  PARAMETERS
@@ -349,83 +346,30 @@ d1 = (policies.d1_F + policies.d1_B)/2;
 d2 = (policies.d2_F + policies.d2_B)/2;
 cons     = one_pii .* (model.t1.A .- d1) + pii .* (model.t2.A .- d2);
 
-# filename_ell = replace(string(round(ell_ex,digits=3)),"." => "")
-
-# CSV.write("./output/para_" * filename_ell*"_"*"g.csv",  Tables.table(g), writeheader=false)
-# CSV.write("./output/para_" * filename_ell*"_"*"d1.csv",  Tables.table(d1), writeheader=false)
-# CSV.write("./output/para_" * filename_ell*"_"*"d2.csv",  Tables.table(d2), writeheader=false)
-# CSV.write("./output/para_" * filename_ell*"_"*"h1.csv",  Tables.table(h1), writeheader=false)
-# CSV.write("./output/para_" * filename_ell*"_"*"h2.csv",  Tables.table(h2), writeheader=false)
-# CSV.write("./output/para_" * filename_ell*"_"*"hz.csv",  Tables.table(hz), writeheader=false)
+CSV.write(filename_ell*"g.csv",  Tables.table(g), writeheader=false)
+CSV.write(filename_ell*"d1.csv",  Tables.table(d1), writeheader=false)
+CSV.write(filename_ell*"d2.csv",  Tables.table(d2), writeheader=false)
+CSV.write(filename_ell*"h1.csv",  Tables.table(h1), writeheader=false)
+CSV.write(filename_ell*"h2.csv",  Tables.table(h2), writeheader=false)
+CSV.write(filename_ell*"hz.csv",  Tables.table(hz), writeheader=false)
 
 results = Dict("delta" => delta,
-# Single capital
-"alpha_c_hat" => alpha_c_hat, "beta_hat" => beta_hat,
-"alpha_z_hat" => alpha_z_hat, "kappa_hat" => kappa_hat,
-"sigma_c" => sigma_c, "sigma_z_1cap" => sigma_z_1cap,
-"zbar" => zbar, "cons_1cap" => cons_1cap, "stdev_z_1cap" => stdev_z_1cap,
-"H0" => H0, "H1" => H1,
 # Two capital stocks
-"alpha_k1_hat" => alpha_k1_hat, "alpha_k2_hat" => alpha_k2_hat,
-"beta1_hat" => beta1_hat, "beta2_hat" => beta2_hat,
 "sigma_k1" => sigma_k1, "sigma_k2" => sigma_k2,
 "sigma_z" =>  sigma_z, "A1" => A1, "A2" => A2, "phi1" => phi1, "phi2" => phi2,
-"alpha_z_tilde" => alpha_z_tilde, "kappa_tilde" => kappa_tilde,
-"alpha_k1_tilde" => alpha_k1_tilde, "beta1_tilde" => beta1_tilde,
-"alpha_k2_tilde" => alpha_k2_tilde, "beta2_tilde" => beta2_tilde,
-"xi0" => xi0, "xi1" => xi1, "xi2" => xi2,
 "I" => II, "J" => JJ,
 "rmax" => rmax, "rmin" => rmin, "zmax" => zmax, "zmin" => zmin,
 "rr" => rr, "zz" => zz, "pii" => pii, "dr" => dr, "dz" => dz, "T" => hor,
 "maxit" => maxit, "crit" => crit, "Delta" => Delta, "inner" => inner,
-# Without robustness
-# "V_noR" => V_noR, "val_noR" => val_noR,
-# "d1_F_noR" => d1_F_noR, "d2_F_noR" => d2_F_noR,
-# "d1_B_noR" => d1_B_noR, "d2_B_noR" => d2_B_noR,
-# "d1_noR" => d1_noR, "d2_noR" => d2_noR,
-# "g_noR_dist" => g_noR_dist, "g_noR" => g_noR,
-# "mu_1_noR" => mu_1_noR, "mu_r_noR" => mu_r_noR, "mu_z_noR" => mu_z_noR,
-# Robust control under baseline
-"V0" => V0, "V" => V, "val" => val, "ell_star" => ell_star,
-# "d1_F" => d1_F, "d2_F" => d2_F,
-# "d1_B" => d1_B, "d2_B" => d2_B,
-"d1" => d1, "d2" => d2,
-# "h1_F" => policies.h1_F, "h2_F" => policies.h2_F, "hz_F" => policies.hz_F,
-# "h1_B" => policies.h1_B, "h2_B" => policies.h2_B, "hz_B" => policies.hz_B,
-# "h1_dist" => h1_dist, "h2_dist" => h2_dist, "hz_dist" => hz_dist,
-"h1" => h1, "h2" => h2, "hz" => hz,
-# "g_dist" => g_dist, "g" => g,
-# "mu_1" => mu_1, "mu_r" => mu_r, "mu_z" => mu_z,
-# Robust control under worst-case
-# "g_wc_dist" => g_wc_dist, "g_wc" => g_wc,
-# "mu_1_wc" => mu_1_wc, "mu_r_wc" => mu_r_wc, "mu_z_wc" => mu_z_wc,
-# Non-robust control under worst-case
-# "g_wc_noR_dist" => g_wc_noR_dist, "g_wc_noR" => g_wc_noR,
-# # Distortion measures
-# "re" => re, "q" => q,
-# "chernoff" => chernoff, "halflife" => halflife,
-# # Local uncertainty prices (stationary distributions)
-# "h12_vec" => h12_vec, "h12_density" => h12_density,
-# "hz_vec" => hz_vec, "hz_density" => hz_density,
-# # Risk-free rate (stationary distributions)
-# "riskfree" => riskfree,
-# "rf_vec" => rf_vec, "rf_density" => rf_density,
-# Consumption (stationary distributions)
-# "cons_noR" => cons_noR, 
-"cons" => cons,
-# "cons_noR_vec" => cons_noR_vec, "cons_noR_density" => cons_noR_density,
-# "cons_vec" => cons_vec, "cons_density" => cons_density,
-# "cons_wc_vec" => cons_wc_vec, "cons_wc_density" => cons_wc_density,
-# Consumption (drift and volatilities)
-# "logC_mu_noR" => logC_mu_noR, "logC_sigma_noR" => logC_sigma_noR,
-# "logC_mu" => logC_mu, "logC_sigma" => logC_sigma,
-# "logC_mu_wc" => logC_mu_wc, "logC_sigma_wc" => logC_sigma_wc,
-# # Impulse Response Functions
-# "R_irf" => pii_irf, "Z_irf" => z_irf,
-# # Expected future uncertainty prices
-# "shock_price_12" => price_12, "shock_price_z" => price_z,
-# Calibration
-"A_1cap" => A_1cap, "phi_1cap" => phi_1cap, "alpha_k_hat" => alpha_k_hat)
-# "consumption_investment" => consumption_investment, "investment_capital" => investment_capital)
 
-npzwrite("./output/" * filename_ell*"_"*filename, results)
+"V0" => V0, "V" => V, "val" => val, "ell_star" => ell_star,
+
+"d1" => d1, "d2" => d2,
+
+"h1" => h1, "h2" => h2, "hz" => hz,
+
+"cons" => cons,
+
+"A_1cap" => A_1cap, "phi_1cap" => phi_1cap)
+
+npzwrite(filename_ell*filename, results)
