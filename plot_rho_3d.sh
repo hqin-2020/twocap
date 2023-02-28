@@ -8,7 +8,7 @@ actiontime=1
 
 python_name="plots_rho_org.py"
 
-rhoarray=(0.8 0.9 1.00001 1.1 1.2 1.3 1.4 1.5)
+rhoarray=(0.7 0.8 0.9 1.00001 1.1 1.2 1.3 1.4 1.5)
 
 gammaarray=(8.0)
 
