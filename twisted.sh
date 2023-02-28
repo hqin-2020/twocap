@@ -25,8 +25,8 @@ do
 #SBATCH --time=0-12:00:00
 #SBATCH --partition=caslake
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=8G
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=2G
 
 module load julia/1.7.3
 srun julia newsets_twocapitals.jl  --symmetric_returns ${symmetric_returns} --state_dependent_xi ${state_dependent_xi} --optimize_over_ell ${optimize_over_ell} --ell_ex ${ell_ex} --alpha_z_tilde_ex ${alpha_z_tilde_ex}
