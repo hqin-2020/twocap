@@ -1,6 +1,6 @@
 #! /bin/bash
 
-Deltaarray=(100 500 1000 5000 10000 50000)
+Deltaarray=(1000 5000 10000)
 # fractionarray=(0.1 0.05 0.01 0.005 0.001 0.0005 0.0001)
 fractionarray=(0.0)
 
@@ -10,7 +10,7 @@ julia_name="newsets_twocapitals_rhoeq.jl"
 
 rhoarray=(0.9 1.00001 1.1 1.2 1.3)
 
-gammaarray=(8.0)
+gammaarray=(8.0 5.0 3.0 1.00001)
 
 
 for Delta in ${Deltaarray[@]}; do
@@ -44,7 +44,7 @@ for Delta in ${Deltaarray[@]}; do
 #SBATCH --partition=caslake
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=2G
+#SBATCH --mem=8G
 
 module load julia/1.7.3
 srun julia /home/hqin/twocap/$julia_name  --Delta ${Delta} --fraction ${fraction} --gamma ${gamma} --rho ${rho} --dataname ${dataname}
