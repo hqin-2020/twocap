@@ -513,28 +513,79 @@ function dstar_twocapitals!(d1::Array{Float64,2},
                             IJ::Int64,
                             model::TwoCapitalEconomy{Float64})
 
+
     # Check for the positivity of the critical term in the quad root formula
     # This might not hold if the technology parameters are weird
     A1, phi1 = model.t1.A, model.t1.phi;
     A2, phi2 = model.t2.A, model.t2.phi;
-
+    fraction = 0.05;
     for i=1:IJ
         p, vr = pii[i], Vr[i]
-        #============== Quadratic equation for 1st capital ====================#
-        aa1 = (1-p) + (phi1/phi2)*(p^2/(1-p))*((1-p)-vr)/(p+vr);
-        aux1 = A1*(1-p) + A2*p - (p*vr)/(phi2*(1-p)*(p + vr));
+        
+        d1old = copy(d1[i]);
+        d2old = copy(d2[i]);
 
-        bb1 = aa1 + phi1*aux1;
-        cc1 = aux1 - model.k1.delta*(1-p)/((1-p)-vr);
+        # function f(d1)
+        #     d2_temp = delta*(1-p)/(1-phi1*d1)/(1-p-Vr[i]) - (1-p)*(A1-d1)
+        #     d2 = A2 - d2_temp/p
+        #     return 
+        # end
 
-        sqrt_test1 = bb1^2 - 4*(phi1*aa1)*cc1;
-        event_A = (sqrt_test1 >= 0);
 
-        d1[i] = event_A * (bb1 - sqrt(event_A*sqrt_test1))/(2*phi1*aa1);
+        d1_temp = delta*(1-p)/((A1-d1old)*(1-p) + (A2-d2old)*p)/(1-p-Vr[i]);
+        d1_temp = (1-d1_temp)/phi1;
 
-        #================= Expression for 2st capital ========================#
-        aux2 = (p/(1-p))*((1-p)-vr)/(p+vr)
-        d2[i] = event_A * ((1-(1-phi1*d1[i])*aux2)/phi2);
+        d2_temp = delta*p/((A1-d1old)*(1-p) + (A2-d2old)*p)/(p+Vr[i]);
+        d2_temp = (1-d2_temp)/phi2;
+
+        # d1_temp = delta*exp.(V[i]*(rho-1))*((A1-d1old)*(1-p) + (A2-d2old)*p).^(-rho)/(1-p-Vr[i])
+        # d1_temp = (1-d1_temp)/phi1
+        # d2_temp = delta*exp.(V[i]*(rho-1))*((A1-d1old)*(1-p) + (A2-d2old)*p).^(-rho)/(p+Vr[i])
+        # d2_temp = (1-d2_temp)/phi2
+        if d1_temp<0
+            d1_temp = 0.001;
+        elseif d1_temp>A1
+            d1_temp = A1-0.001
+        end 
+        if d2_temp<0
+            d2_temp = 0.001;
+        elseif d2_temp>A2
+            d2_temp = A2-0.001
+        end 
+        d1_temp = d1_temp * fraction + d1old *(1-fraction);
+        d2_temp = d2_temp * fraction + d2old *(1-fraction);
+        
+        if d1_temp<0
+            d1[i] = 0.001;
+        elseif d1_temp>A1
+            d1[i] = A1-0.001
+        else
+            d1[i] = d1_temp
+        end 
+
+        if d2_temp<0
+            d2[i] = 0.001;
+        elseif d2_temp>A2
+            d2[i] = A2-0.001
+        else
+            d2[i] = d2_temp
+        end
+
+    #     #============== Quadratic equation for 1st capital ====================#
+    #     aa1 = (1-p) + (phi1/phi2)*(p^2/(1-p))*((1-p)-vr)/(p+vr);
+    #     aux1 = A1*(1-p) + A2*p - (p*vr)/(phi2*(1-p)*(p + vr));
+
+    #     bb1 = aa1 + phi1*aux1;
+    #     cc1 = aux1 - model.k1.delta*(1-p)/((1-p)-vr);
+
+    #     sqrt_test1 = bb1^2 - 4*(phi1*aa1)*cc1;
+    #     event_A = (sqrt_test1 >= 0);
+
+    #     d1[i] = event_A * (bb1 - sqrt(event_A*sqrt_test1))/(2*phi1*aa1);
+
+    #     #================= Expression for 2st capital ========================#
+    #     aux2 = (p/(1-p))*((1-p)-vr)/(p+vr)
+    #     d2[i] = event_A * ((1-(1-phi1*d1[i])*aux2)/phi2);
     end
 
     nothing

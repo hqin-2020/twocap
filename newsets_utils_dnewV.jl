@@ -9,7 +9,8 @@ using LinearAlgebra
 using SparseArrays
 using Interpolations
 using SuiteSparse
-
+using IntervalArithmetic
+using IntervalRootFinding
 
 mutable struct Baseline{T}
     alpha_z_hat::T
@@ -511,30 +512,47 @@ function dstar_twocapitals!(d1::Array{Float64,2},
                             Vr::Array{Float64,2},
                             pii::Array{Float64,2},
                             IJ::Int64,
+                            V::Array{Float64,2},
                             model::TwoCapitalEconomy{Float64})
+
 
     # Check for the positivity of the critical term in the quad root formula
     # This might not hold if the technology parameters are weird
     A1, phi1 = model.t1.A, model.t1.phi;
     A2, phi2 = model.t2.A, model.t2.phi;
-
+    fraction = 0.05;
     for i=1:IJ
-        p, vr = pii[i], Vr[i]
+        p, vr = pii[i], Vr[i]       
+
+        rho = 1
+        function f(d1x)
+            d2_temp = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1x)/(1-p-Vr[i])).^(-rho) - (1-p)*(A1-d1x);
+            d2x = A2 - d2_temp/p
+            return delta*p*exp.(V[i]*(rho-1))*((A1-d1x)*(1-p) + (A2-d2x)*p).^(-rho)  - (p+Vr[i])*(1-phi2*d2x)
+        end
+
+        x0 = 0.03;
+        d1_root = find_zero(f, x0, Roots.Order1());
+        d2y = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1_root)/(1-p-Vr[i])).^(-rho) - (1-p)*(A1-d1_root);
+        d2_root = A2 - d2y/p;
+        d1[i] = d1_root;
+        d2[i] = d2_root;
+
         #============== Quadratic equation for 1st capital ====================#
-        aa1 = (1-p) + (phi1/phi2)*(p^2/(1-p))*((1-p)-vr)/(p+vr);
-        aux1 = A1*(1-p) + A2*p - (p*vr)/(phi2*(1-p)*(p + vr));
+        # aa1 = (1-p) + (phi1/phi2)*(p^2/(1-p))*((1-p)-vr)/(p+vr);
+        # aux1 = A1*(1-p) + A2*p - (p*vr)/(phi2*(1-p)*(p + vr));
 
-        bb1 = aa1 + phi1*aux1;
-        cc1 = aux1 - model.k1.delta*(1-p)/((1-p)-vr);
+        # bb1 = aa1 + phi1*aux1;
+        # cc1 = aux1 - model.k1.delta*(1-p)/((1-p)-vr);
 
-        sqrt_test1 = bb1^2 - 4*(phi1*aa1)*cc1;
-        event_A = (sqrt_test1 >= 0);
+        # sqrt_test1 = bb1^2 - 4*(phi1*aa1)*cc1;
+        # event_A = (sqrt_test1 >= 0);
 
-        d1[i] = event_A * (bb1 - sqrt(event_A*sqrt_test1))/(2*phi1*aa1);
-
-        #================= Expression for 2st capital ========================#
-        aux2 = (p/(1-p))*((1-p)-vr)/(p+vr)
-        d2[i] = event_A * ((1-(1-phi1*d1[i])*aux2)/phi2);
+        # d1[i] = event_A * (bb1 - sqrt(event_A*sqrt_test1))/(2*phi1*aa1);
+        # println(f(d1[i]));
+        # #================= Expression for 2st capital ========================#
+        # aux2 = (p/(1-p))*((1-p)-vr)/(p+vr)
+        # d2[i] = event_A * ((1-(1-phi1*d1[i])*aux2)/phi2);
     end
 
     nothing
@@ -867,8 +885,8 @@ function value_function_twocapitals(ell::Float64,
           Vz_B[:, 2:JJ] = Vz_F[:, 1:JJ-1] = (V[:, 2:JJ] - V[:, 1:JJ-1])./dz;
 
           # Investment-capital ratios
-          dstar_twocapitals!(d1_F, d2_F, Vr_F, pii, IJ, model);
-          dstar_twocapitals!(d1_B, d2_B, Vr_B, pii, IJ, model);
+          dstar_twocapitals!(d1_F, d2_F, Vr_F, pii, IJ, V, model);
+          dstar_twocapitals!(d1_B, d2_B, Vr_B, pii, IJ, V, model);
 
           # Drifts
           drifts!(mu_1_F, mu_r_F, d1_F, d2_F, zz, pii, IJ, model);

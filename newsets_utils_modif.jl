@@ -583,11 +583,6 @@ function dstar_twocapitals!(d1::Array{Float64,2},
             d2[i] = d2_temp;
         end
         
-        c = alpha - d1[i]*k1a - d2[i]*k2a;
-        if c<0
-            c= 0.001
-        end
-
         # if d1_temp*k1a>alpha*0.36
         #     d1[i] = alpha*0.36/k1a-0.001;
         # elseif d1_temp<0
@@ -739,9 +734,12 @@ function create_uu!(uu::Array{Float64, 1},
         k1a = (1-zeta + zeta*exp.(p)^(1-kappa))^(1/(kappa-1));
         k2a = ((1-zeta)*exp.(p)^(kappa-1) + zeta)^(1/(kappa-1));
         c = alpha - d1[i]*k1a - d2[i]*k2a;
+        if c<0
+            c= 0.001
+        end
         penalty_term = (1-gamma)*(h1[i]^2 + h2[i]^2 + hz[i]^2)/2;
 
-        uu[i] = (delta/(1-rho)*(c^(1-rho)*(exp.((rho-1)*V[i]))-1)+ penalty_term + mu_1[i]);
+        uu[i] = (delta/(1-rho)*(c^(1-rho)*exp.((rho-1)*V[i])-1)+ penalty_term + mu_1[i]);
     end
 
     nothing
@@ -867,8 +865,8 @@ function value_function_twocapitals(gamma::Float64,
       # Choice variables (capital ratio and worst-case drift)
       d1_F, d2_F = zeros(II, JJ), zeros(II, JJ);
       d1_B, d2_B = zeros(II, JJ), zeros(II, JJ);
-    #   d1_F, d2_F = 0.002*ones(II, JJ), 0.002*ones(II, JJ);
-    #   d1_B, d2_B = 0.002*ones(II, JJ), 0.002*ones(II, JJ);
+    #   d1_F, d2_F = 0.01*ones(II, JJ), 0.01*ones(II, JJ);
+    #   d1_B, d2_B = 0.01*ones(II, JJ), 0.01*ones(II, JJ);
       h1_F, h1_B  = zeros(II, JJ), zeros(II, JJ);
       h2_F, h2_B  = zeros(II, JJ), zeros(II, JJ);
       hz_F, hz_B  = zeros(II, JJ), zeros(II, JJ);

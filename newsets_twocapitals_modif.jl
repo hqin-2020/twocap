@@ -128,7 +128,7 @@ zmin = -zmax;
 # (4) Iteration parameters
 maxit = 500000;        # maximum number of iterations in the HJB loop
 crit  = 10e-6;      # criterion HJB loop
-Delta = 1000.;      # delta in HJB algorithm
+# Delta = 1000.;      # delta in HJB algorithm
 
 
 # Initialize model objects -----------------------------------------------------
