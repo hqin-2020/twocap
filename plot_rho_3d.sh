@@ -44,7 +44,7 @@ for Delta in ${Deltaarray[@]}; do
 #SBATCH --partition=caslake
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
+#SBATCH --mem=3G
 
 module load python/anaconda-2020.11
 python3 /home/hqin/twocap/$python_name  --Delta ${Delta} --fraction ${fraction} --gamma ${gamma} --rho ${rho} --dataname ${dataname}
