@@ -71,12 +71,24 @@ fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_R = g.sum(axis=1)*0.01
 g_Z = g.sum(axis=0)*0.036
 sns.lineplot(data = g_R,label = r"$g_R$")
-# ax.set_ylim([-0.01,0.18])
+ax.set_ylim([0.0,0.4])
 ax.set_ylabel(r'$g_R$')
 ax.set_xlabel(r'$R$')
 ax.set_title(r'R density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
 fig.tight_layout()
 fig.savefig(figname+'/gR.png', dpi = 400)
+plt.close()
+
+fig, ax = plt.subplots(1,1,figsize = (4,4))
+g_R = g.sum(axis=1)*0.01
+g_Z = g.sum(axis=0)*0.036
+sns.lineplot(data = g_Z,label = r"$g_Z$")
+ax.set_ylim([0.0,0.4])
+ax.set_ylabel(r'$g_Z$')
+ax.set_xlabel(r'$Z$')
+ax.set_title(r'Z density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
+fig.tight_layout()
+fig.savefig(figname+'/gZ.png', dpi = 400)
 plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
@@ -94,7 +106,8 @@ plt.close()
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = d1[0],label = r"$d_1$")
 sns.lineplot(data = d2[0],label = r"$d_2$")
-ax.set_ylim([-0.01,0.05])
+ax.set_ylim([0.027,0.037])
+# ax.set_ylim([-0.01,0.05])
 ax.set_ylabel(r'$d$')
 ax.set_xlabel(r'$R$')
 ax.set_title(r'd, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$'+'='+str(rho))
@@ -104,8 +117,7 @@ plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = V[0],label = r"$V$")
-# sns.lineplot(data = V0[0],label = r"$V0$")
-# ax.set_ylim([-0.01,0.05])
+ax.set_ylim([-3.45,-3.05])
 ax.set_ylabel(r'$V$')
 ax.set_xlabel(r'$R$')
 ax.set_title(r'V, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$'+'='+str(rho))
@@ -120,6 +132,40 @@ W1 = trans(np.linspace(-18,18,1001))
 W2 = np.linspace(-1,1,201)
 var_name = ['Investment over Capital', 'Consumption over Capital', 'Log Value Function']
 
+
+plot_row_dims      = 1
+plot_col_dims      = 3
+
+plot_color_style   = ['blues','reds', 'greens']
+
+subplot_titles = []
+subplot_types = []
+for row in range(plot_row_dims):
+    subplot_type = []
+    for col in range(plot_col_dims):
+        subplot_titles.append(var_name[col])
+        subplot_type.append({'type': 'surface'})
+    subplot_types.append(subplot_type)
+spacing = 0.1
+fig = make_subplots(rows=plot_row_dims, cols=plot_col_dims, horizontal_spacing=spacing, vertical_spacing=spacing, subplot_titles=(subplot_titles), specs=subplot_types)
+fig.add_trace(go.Surface(z=res['d1'].T[5:-5,5:-5], x=W1, y=W2, colorscale=plot_color_style[0], showscale=False, name= 'd1', showlegend=True), row = 1, col = 1)
+fig.add_trace(go.Surface(z=res['d2'].T[5:-5,5:-5], x=W1, y=W2, colorscale=plot_color_style[1], showscale=False, name= 'd2', showlegend=True), row = 1, col = 1)
+fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='d', zaxis = dict(nticks=4, tickformat= ".4f")), row = 1, col = 1)
+
+fig.add_trace(go.Surface(z=res['cons'].T[5:-5,5:-5], x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'c', showlegend=True), row = 1, col = 2)
+fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='c', zaxis = dict(nticks=4, tickformat= ".4f")), row = 1, col = 2)
+fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 2)
+
+fig.add_trace(go.Surface(z=res['V'].T[5:-5,5:-5], x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'V', showlegend=True), row = 1, col = 3)
+fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='V', zaxis = dict(nticks=4, tickformat= ".2f")), row = 1, col = 3)
+fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 3)
+fig.update_layout(title= 'Policy Function, Value Function <br><span style="font-size: 12px;"> gamma = '+ str(gamma)+', rho = '+ str(rho)+'</span>',\
+              title_x = 0.5, title_y = 0.97, height=500, width=1200, title_yanchor = 'top')
+fig.update_layout(margin=dict(t=75))
+fig.write_json(figname+"/3dw.json")
+fig.write_image(figname+"/3dw.png")
+        
+        
 plot_row_dims      = 1
 plot_col_dims      = 3
 
@@ -153,36 +199,3 @@ fig.update_layout(margin=dict(t=75))
 fig.write_json(figname+"/3d.json")
 fig.write_image(figname+"/3d.png")
 
-
-plot_row_dims      = 1
-plot_col_dims      = 3
-
-plot_color_style   = ['blues','reds', 'greens']
-
-subplot_titles = []
-subplot_types = []
-for row in range(plot_row_dims):
-    subplot_type = []
-    for col in range(plot_col_dims):
-        subplot_titles.append(var_name[col])
-        subplot_type.append({'type': 'surface'})
-    subplot_types.append(subplot_type)
-spacing = 0.1
-fig = make_subplots(rows=plot_row_dims, cols=plot_col_dims, horizontal_spacing=spacing, vertical_spacing=spacing, subplot_titles=(subplot_titles), specs=subplot_types)
-fig.add_trace(go.Surface(z=res['d1'].T, x=W1, y=W2, colorscale=plot_color_style[0], showscale=False, name= 'd1', showlegend=True), row = 1, col = 1)
-fig.add_trace(go.Surface(z=res['d2'].T, x=W1, y=W2, colorscale=plot_color_style[1], showscale=False, name= 'd2', showlegend=True), row = 1, col = 1)
-fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='d', zaxis = dict(nticks=4, tickformat= ".4f")), row = 1, col = 1)
-
-fig.add_trace(go.Surface(z=res['cons'].T, x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'c', showlegend=True), row = 1, col = 2)
-fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='c', zaxis = dict(nticks=4, tickformat= ".4f")), row = 1, col = 2)
-fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 2)
-
-fig.add_trace(go.Surface(z=res['V'].T, x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'V', showlegend=True), row = 1, col = 3)
-fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='V', zaxis = dict(nticks=4, tickformat= ".2f")), row = 1, col = 3)
-fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 3)
-fig.update_layout(title= 'Policy Function, Value Function <br><span style="font-size: 12px;"> gamma = '+ str(gamma)+', rho = '+ str(rho)+'</span>',\
-              title_x = 0.5, title_y = 0.97, height=500, width=1200, title_yanchor = 'top')
-fig.update_layout(margin=dict(t=75))
-fig.write_json(figname+"/3dw.json")
-fig.write_image(figname+"/3dw.png")
-        
