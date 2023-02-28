@@ -1,6 +1,6 @@
 #! /bin/bash
 
-Deltaarray=(10 100 1000)
+Deltaarray=(100 500 1000)
 # fractionarray=(0.1 0.05 0.01 0.005 0.001 0.0005 0.0001)
 fractionarray=(0.0)
 
@@ -19,7 +19,7 @@ for Delta in ${Deltaarray[@]}; do
             for gamma in "${gammaarray[@]}"; do
                     count=0
 
-                    action_name="TwoCapital_julia_rhoeq_75_1754"
+                    action_name="TwoCapital_julia_rhoeq_time_51754"
 
                     dataname="${action_name}_${Delta}_frac_${fraction}"
 
