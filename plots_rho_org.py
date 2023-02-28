@@ -48,7 +48,7 @@ elif symmetric_returns == 0:
         filename = "model_asym_HSHS2.npz"
 
 filename_ell = "./output/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
-npz = np.load("output/" + filename_ell + filename)
+npz = np.load(filename_ell + filename)
 figname = "./figure/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
 os.makedirs(figname,exist_ok=True)
 
