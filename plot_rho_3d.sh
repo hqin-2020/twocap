@@ -10,7 +10,7 @@ python_name="plots_rho_org.py"
 
 rhoarray=(0.7 0.8 0.9 1.00001 1.1 1.2 1.3 1.4 1.5)
 
-gammaarray=(8.0)
+gammaarray=(1.00001 3.0 5.0)
 
 
 for Delta in ${Deltaarray[@]}; do
@@ -19,7 +19,7 @@ for Delta in ${Deltaarray[@]}; do
             for gamma in "${gammaarray[@]}"; do
                     count=0
 
-                    action_name="TwoCapital_julia_rhoeq_time_51754"
+                    action_name="TwoCapital_julia_rhoeq_time_gamma"
 
                     dataname="${action_name}_${Delta}_frac_${fraction}"
 

@@ -49,6 +49,9 @@ elif symmetric_returns == 0:
 
 filename_ell = "./output/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
 npz = np.load(filename_ell + filename)
+
+benchmark = np.load('./output/azt_-0005_ell_ex_0143_model_sym_HS_132.npz')
+
 figname = "./figure/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
 os.makedirs(figname,exist_ok=True)
 
@@ -67,10 +70,25 @@ hz = read_csv('hz')
 V = read_csv('V')
 g = read_csv('g')
 
+def read_benchmark(name):
+    h1 = pd.DataFrame(benchmark[name])
+    h1.index = trans(np.linspace(-18,18,1001))
+    h1.columns = np.linspace(-1,1,201)
+    return h1
+d1b = read_benchmark('d1')
+d2b = read_benchmark('d2')
+h1b = read_benchmark('h1')
+h2b = read_benchmark('h2')
+hzb = read_benchmark('hz')
+Vb = read_benchmark('V')
+gb = read_benchmark('g')
+
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_R = g.sum(axis=1)*0.01
+g_Rb = gb.sum(axis=1)*0.01
 g_Z = g.sum(axis=0)*0.036
 sns.lineplot(data = g_R,label = r"$g_R$")
+sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
 ax.set_ylim([0.0,0.4])
 ax.set_ylabel(r'$g_R$')
 ax.set_xlabel(r'$R$')
@@ -82,7 +100,9 @@ plt.close()
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_R = g.sum(axis=1)*0.01
 g_Z = g.sum(axis=0)*0.036
+g_Zb = gb.sum(axis=0)*0.036
 sns.lineplot(data = g_Z,label = r"$g_Z$")
+sns.lineplot(data = g_Zb,label = r"$g_Z, \rho =1$")
 ax.set_ylim([0.0,0.4])
 ax.set_ylabel(r'$g_Z$')
 ax.set_xlabel(r'$Z$')
@@ -106,6 +126,8 @@ plt.close()
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = d1[0],label = r"$d_1$")
 sns.lineplot(data = d2[0],label = r"$d_2$")
+sns.lineplot(data = d1b[0],label = r"$d_1, \rho =1$")
+sns.lineplot(data = d2b[0],label = r"$d_2, \rho =1$")
 ax.set_ylim([0.027,0.037])
 # ax.set_ylim([-0.01,0.05])
 ax.set_ylabel(r'$d$')
@@ -117,6 +139,7 @@ plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = V[0],label = r"$V$")
+sns.lineplot(data = Vb[0],label = r"$V, \rho =1$")
 ax.set_ylim([-3.45,-3.05])
 ax.set_ylabel(r'$V$')
 ax.set_xlabel(r'$R$')
@@ -165,7 +188,7 @@ fig.update_layout(margin=dict(t=75))
 fig.write_json(figname+"/3dw.json")
 fig.write_image(figname+"/3dw.png")
         
-        
+
 plot_row_dims      = 1
 plot_col_dims      = 3
 
