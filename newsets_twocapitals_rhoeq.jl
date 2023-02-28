@@ -346,12 +346,13 @@ d1 = (policies.d1_F + policies.d1_B)/2;
 d2 = (policies.d2_F + policies.d2_B)/2;
 cons     = one_pii .* (model.t1.A .- d1) + pii .* (model.t2.A .- d2);
 
-CSV.write(filename_ell*"g.csv",  Tables.table(g), writeheader=false)
 CSV.write(filename_ell*"d1.csv",  Tables.table(d1), writeheader=false)
 CSV.write(filename_ell*"d2.csv",  Tables.table(d2), writeheader=false)
 CSV.write(filename_ell*"h1.csv",  Tables.table(h1), writeheader=false)
 CSV.write(filename_ell*"h2.csv",  Tables.table(h2), writeheader=false)
 CSV.write(filename_ell*"hz.csv",  Tables.table(hz), writeheader=false)
+CSV.write(filename_ell*"V.csv",  Tables.table(V), writeheader=false)
+CSV.write(filename_ell*"cons.csv",  Tables.table(cons), writeheader=false)
 
 results = Dict("delta" => delta,
 # Two capital stocks
