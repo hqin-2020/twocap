@@ -47,7 +47,7 @@ for Delta in ${Deltaarray[@]}; do
 #SBATCH --mem=1G
 
 module load python/anaconda-2020.11
-srun python3 /home/hqin/twocap/$python_name  --Delta ${Delta} --fraction ${fraction} --gamma ${gamma} --rho ${rho} --dataname ${dataname}
+python3 /home/hqin/twocap/$python_name  --Delta ${Delta} --fraction ${fraction} --gamma ${gamma} --rho ${rho} --dataname ${dataname}
 EOF
                 count=$(($count + 1))
                 sbatch ./bash/${action_name}/Delta_${Delta}_frac_${fraction}/rho_${rho}_gamma_${gamma}_plot.sh
