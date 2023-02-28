@@ -150,6 +150,8 @@ A, V, val, d1_F, d2_F, d1_B, d2_B, h1_F, h2_F, hz_F, h1_B, h2_B, hz_B,
         value_function_twocapitals(gamma, rho, fraction, model, grid, params, symmetric_returns);
 println("=============================================================")
 
+g_dist, g = stationary_distribution(A, grid)
+
 # Define Policies object
 policies  = PolicyFunctions(d1_F, d2_F, d1_B, d2_B,
                             -h1_F/ell_star, -h2_F/ell_star, -hz_F/ell_star,
@@ -184,6 +186,7 @@ results = Dict("delta" => delta,
 "rmax" => rmax, "rmin" => rmin, "zmax" => zmax, "zmin" => zmin,
 "rr" => rr, "zz" => zz, "pii" => pii, "dr" => dr, "dz" => dz, "T" => hor,
 "maxit" => maxit, "crit" => crit, "Delta" => Delta, "inner" => inner,
+"g_dist" => g_dist, "g" => g,
 # Robust control under baseline
 "V0" => V0, "V" => V, "val" => val, "gamma" => gamma,"rho" => rho,
 "d1_F" => d1_F, "d2_F" => d2_F,

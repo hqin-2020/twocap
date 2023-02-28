@@ -325,6 +325,8 @@ A, V, val, d1_F, d2_F, d1_B, d2_B, h1_F, h2_F, hz_F, h1_B, h2_B, hz_B,
 one_pii = 1 .- pii
 println("=============================================================")
 
+g_dist, g = stationary_distribution(A, grid)
+
 # Define Policies object
 policies  = PolicyFunctions(d1_F, d2_F, d1_B, d2_B,
                             -h1_F/ell_star, -h2_F/ell_star, -hz_F/ell_star,
@@ -369,6 +371,7 @@ results = Dict("delta" => delta,
 "h1" => h1, "h2" => h2, "hz" => hz,
 
 "cons" => cons,
+"g_dist" => g_dist, "g" => g,
 
 "A_1cap" => A_1cap, "phi_1cap" => phi_1cap)
 npzwrite(filename_ell*filename, results)
