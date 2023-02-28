@@ -47,10 +47,11 @@ elif symmetric_returns == 0:
     elif state_dependent_xi == 2:
         filename = "model_asym_HSHS2.npz"
 
-
+filename_ell = "./output/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
 npz = np.load("output/" + filename_ell + filename)
-figname = "azt_"+str(alpha_z_tilde_ex)+"_ell_"+str(ell_ex)
-os.makedirs('doc/' + figname,exist_ok=True)
+figname = "./figure/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
+os.makedirs(figname,exist_ok=True)
+
 def trans(x):
     return np.exp(x)/(np.exp(x)+1)
 def read_csv(name):
@@ -72,12 +73,9 @@ sns.lineplot(data = hz[0],label = r"$-H_z$")
 ax.set_ylim([-0.01,0.18])
 ax.set_ylabel(r'$-H$')
 ax.set_xlabel(r'$R$')
-if optimize_over_ell == 0:
-    ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell$'+'='+str(npz['ell_star'])[:8])
-elif optimize_over_ell == 1:
-    ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell^\star$'+'='+str(npz['ell_star'])[:8])
+ax.set_title(r'H, '+ '$\gamma=$'+str(gamma)+', '+'$\rho$'+'='+str(rho))
 fig.tight_layout()
-fig.savefig('doc/' + figname+'/h.png', dpi = 400)
+fig.savefig(figname+'/h.png', dpi = 400)
 plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
@@ -86,12 +84,9 @@ sns.lineplot(data = d2[0],label = r"$d_2$")
 ax.set_ylim([-0.01,0.05])
 ax.set_ylabel(r'$d$')
 ax.set_xlabel(r'$R$')
-if optimize_over_ell == 0:
-    ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell$'+'='+str(npz['ell_star'])[:8])
-elif optimize_over_ell == 1:
-    ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell^\star$'+'='+str(npz['ell_star'])[:8])
+ax.set_title(r'd, '+ '$\gamma=$'+str(gamma)+', '+'$\rho$'+'='+str(rho))
 fig.tight_layout()
-fig.savefig('doc/' + figname+'/d.png', dpi = 400)
+fig.savefig(figname+'/d.png', dpi = 400)
 plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
@@ -100,10 +95,7 @@ sns.lineplot(data = V[0],label = r"$V$")
 # ax.set_ylim([-0.01,0.05])
 ax.set_ylabel(r'$V$')
 ax.set_xlabel(r'$R$')
-if optimize_over_ell == 0:
-    ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell$'+'='+str(npz['ell_star'])[:8])
-elif optimize_over_ell == 1:
-    ax.set_title(r'$\tilde{\alpha}_z=$'+str(alpha_z_tilde_ex)[:8]+', '+'$\ell^\star$'+'='+str(npz['ell_star'])[:8])
+ax.set_title(r'V, '+ '$\gamma=$'+str(gamma)+', '+'$\rho$'+'='+str(rho))
 fig.tight_layout()
 
 fig.savefig('doc/' + figname+'/v.png', dpi = 400)
@@ -142,9 +134,9 @@ fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 2)
 fig.add_trace(go.Surface(z=res['V'].T, x=W1, y=W2, colorscale=plot_color_style[2], showscale=False, name= 'V', showlegend=True), row = 1, col = 3)
 fig.update_scenes(dict(xaxis_title='r', yaxis_title='z', zaxis_title='V', zaxis = dict(nticks=4, tickformat= ".2f")), row = 1, col = 3)
 fig.update_scenes(dict(aspectmode = 'cube'), row = 1, col = 3)
-fig.update_layout(title= 'Control Variable, Value Function <br><span style="font-size: 12px;"> ell_ex = '+ str(ell_ex)+'</span>',\
+fig.update_layout(title= 'Policy Function, Value Function <br><span style="font-size: 12px;"> gamma = '+ str(gamma)+', rho = '+ str(rho)+'</span>',\
               title_x = 0.5, title_y = 0.97, height=500, width=1200, title_yanchor = 'top')
 fig.update_layout(margin=dict(t=75))
-fig.write_json('doc/' + figname+"/3d.json")
-fig.write_image('doc/' + figname+"/3d.png")
+fig.write_json(figname+"/3d.json")
+fig.write_image(figname+"/3d.png")
         
