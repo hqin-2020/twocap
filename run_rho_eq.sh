@@ -8,8 +8,7 @@ actiontime=1
 
 julia_name="newsets_twocapitals_rhoeq.jl"
 
-# rhoarray=(0.9 1.00001 1.1)
-rhoarray=(0.8 1.2 1.3 1.4 1.5)
+rhoarray=(0.8 0.9 1.00001 1.1 1.2 1.3 1.4 1.5)
 
 gammaarray=(8.0)
 
