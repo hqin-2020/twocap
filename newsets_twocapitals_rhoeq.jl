@@ -10,8 +10,6 @@ using Optim
 using Roots
 using NPZ
 using Distributed
-using CSV
-using Tables
 using ArgParse
 
 function parse_commandline()
@@ -55,7 +53,7 @@ symmetric_returns    = 1
 state_dependent_xi   = 0
 optimize_over_ell    = 0
 compute_irfs         = 0                    # need to start julia with "-p 5"
-alpha_z_tilde_ex = -.005
+
 if compute_irfs == 1
     @everywhere include("newsets_utils_rho.jl")
 elseif compute_irfs ==0
@@ -149,7 +147,7 @@ if symmetric_returns == 1
         alpha_k2_hat = alpha_k1_hat = alpha_k_hat;
 
         # Worrisome model
-        alpha_z_tilde  = alpha_z_tilde_ex#-.0075
+        alpha_z_tilde  = -.005;
         kappa_tilde    = kappa_hat;
         alpha_k1_tilde = alpha_k1_hat
         beta1_tilde    = beta1_hat
@@ -163,7 +161,7 @@ if symmetric_returns == 1
         scale = 1.62
         alpha_k2_hat = alpha_k1_hat = alpha_k_hat;
 
-        alpha_z_tilde  = alpha_z_tilde_ex#-.0075;
+        alpha_z_tilde  = -.00155;
         kappa_tilde    =  .005
         alpha_k1_tilde = alpha_k1_hat
         beta1_tilde    = beta1_hat
@@ -177,7 +175,7 @@ if symmetric_returns == 1
         scale = 1.568
         alpha_k2_hat = alpha_k1_hat = alpha_k_hat;
 
-        alpha_z_tilde  = alpha_z_tilde_ex#-.0075;
+        alpha_z_tilde  = -.00155;
         kappa_tilde    = kappa_hat
         alpha_k1_tilde = alpha_k1_hat
         beta1_tilde    = beta1_hat + .1941
@@ -204,7 +202,7 @@ elseif symmetric_returns == 0
         alpha_k2_hat = alpha_k1_hat = alpha_k_hat;
 
         # Worrisome model
-        alpha_z_tilde  = alpha_z_tilde_ex#-.0075;
+        alpha_z_tilde  = -.00534;
         kappa_tilde    = kappa_hat;
         alpha_k1_tilde = alpha_k1_hat
         beta1_tilde    = beta1_hat
@@ -218,7 +216,7 @@ elseif symmetric_returns == 0
         scale = 1.14
         alpha_k2_hat = alpha_k1_hat = alpha_k_hat + .035; #.034;
 
-        alpha_z_tilde  = alpha_z_tilde_ex#-.0075
+        alpha_z_tilde  = -.002325;
         kappa_tilde    = .005;
         alpha_k1_tilde = alpha_k1_hat
         beta1_tilde    = beta1_hat;
@@ -232,7 +230,7 @@ elseif symmetric_returns == 0
         scale = 1.27
         alpha_k2_hat = alpha_k1_hat = alpha_k_hat
 
-        alpha_z_tilde  = alpha_z_tilde_ex#-.0075
+        alpha_z_tilde  = -.002325;
         kappa_tilde    = kappa_hat
         alpha_k1_tilde = alpha_k1_hat
         beta1_tilde    = beta1_hat + .194 #.195
@@ -318,10 +316,12 @@ end
 #==============================================================================#
 
 println(" (3) Compute value function WITH ROBUSTNESS")
+times = @elapsed begin
 A, V, val, d1_F, d2_F, d1_B, d2_B, h1_F, h2_F, hz_F, h1_B, h2_B, hz_B,
         mu_1_F, mu_1_B, mu_r_F, mu_r_B, mu_z, V0, rr, zz, pii, dr, dz =
         value_function_twocapitals(ell_star, rho, fraction, model, worrisome,
                                     grid, params, symmetric_returns);
+end
 one_pii = 1 .- pii
 println("=============================================================")
 
@@ -347,18 +347,16 @@ d1 = (policies.d1_F + policies.d1_B)/2;
 d2 = (policies.d2_F + policies.d2_B)/2;
 cons     = one_pii .* (model.t1.A .- d1) + pii .* (model.t2.A .- d2);
 
-CSV.write(filename_ell*"d1.csv",  Tables.table(d1), writeheader=false)
-CSV.write(filename_ell*"d2.csv",  Tables.table(d2), writeheader=false)
-CSV.write(filename_ell*"h1.csv",  Tables.table(h1), writeheader=false)
-CSV.write(filename_ell*"h2.csv",  Tables.table(h2), writeheader=false)
-CSV.write(filename_ell*"hz.csv",  Tables.table(hz), writeheader=false)
-CSV.write(filename_ell*"V.csv",  Tables.table(V), writeheader=false)
-CSV.write(filename_ell*"cons.csv",  Tables.table(cons), writeheader=false)
-
 results = Dict("delta" => delta,
 # Two capital stocks
+"alpha_k1_hat" => alpha_k1_hat, "alpha_k2_hat" => alpha_k2_hat,
+"beta1_hat" => beta1_hat, "beta2_hat" => beta2_hat,
 "sigma_k1" => sigma_k1, "sigma_k2" => sigma_k2,
 "sigma_z" =>  sigma_z, "A1" => A1, "A2" => A2, "phi1" => phi1, "phi2" => phi2,
+"alpha_z_tilde" => alpha_z_tilde, "kappa_tilde" => kappa_tilde,
+"alpha_k1_tilde" => alpha_k1_tilde, "beta1_tilde" => beta1_tilde,
+"alpha_k2_tilde" => alpha_k2_tilde, "beta2_tilde" => beta2_tilde,
+"xi0" => xi0, "xi1" => xi1, "xi2" => xi2,
 "I" => II, "J" => JJ,
 "rmax" => rmax, "rmin" => rmin, "zmax" => zmax, "zmin" => zmin,
 "rr" => rr, "zz" => zz, "pii" => pii, "dr" => dr, "dz" => dz,
@@ -373,6 +371,7 @@ results = Dict("delta" => delta,
 "cons" => cons,
 "g_dist" => g_dist, "g" => g,
 
+"times" => times,
 "A_1cap" => A_1cap, "phi_1cap" => phi_1cap)
 npzwrite(filename_ell*filename, results)
 
