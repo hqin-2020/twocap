@@ -55,7 +55,7 @@ symmetric_returns    = 1
 state_dependent_xi   = 0
 optimize_over_ell    = 0
 compute_irfs         = 0                    # need to start julia with "-p 5"
-alpha_z_tilde_ex = -.0075
+alpha_z_tilde_ex = -.005
 if compute_irfs == 1
     @everywhere include("newsets_utils_rhoiter.jl")
 elseif compute_irfs ==0
