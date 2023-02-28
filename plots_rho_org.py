@@ -50,7 +50,7 @@ elif symmetric_returns == 0:
 filename_ell = "./output/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
 npz = np.load(filename_ell + filename)
 
-benchmark = np.load('./output/azt_-0005_ell_ex_0143_model_sym_HS_132.npz')
+benchmark = np.load('./output/azt_-0005_ell_ex_0143_model_sym_HS.npz')
 
 figname = "./figure/"+dataname+"/gamma_"+str(gamma)+"_rho_"+str(rho)+"/"
 os.makedirs(figname,exist_ok=True)
