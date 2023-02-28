@@ -90,7 +90,7 @@ elseif symmetric_returns == 0
 end
 
 filename_ell = "./output/"*dataname*"/gamma_"*string(gamma)*"_rho_"*string(rho)*"/"
-isdir(filename_ell) || mkdir(filename_ell)
+isdir(filename_ell) || mkpath(filename_ell)
 
 #==============================================================================#
 #  PARAMETERS
@@ -360,8 +360,8 @@ results = Dict("delta" => delta,
 "sigma_z" =>  sigma_z, "A1" => A1, "A2" => A2, "phi1" => phi1, "phi2" => phi2,
 "I" => II, "J" => JJ,
 "rmax" => rmax, "rmin" => rmin, "zmax" => zmax, "zmin" => zmin,
-"rr" => rr, "zz" => zz, "pii" => pii, "dr" => dr, "dz" => dz, "T" => hor,
-"maxit" => maxit, "crit" => crit, "Delta" => Delta, "inner" => inner,
+"rr" => rr, "zz" => zz, "pii" => pii, "dr" => dr, "dz" => dz,
+"maxit" => maxit, "crit" => crit, "Delta" => Delta,
 
 "V0" => V0, "V" => V, "val" => val, "ell_star" => ell_star,
 
@@ -372,5 +372,4 @@ results = Dict("delta" => delta,
 "cons" => cons,
 
 "A_1cap" => A_1cap, "phi_1cap" => phi_1cap)
-
 npzwrite(filename_ell*filename, results)
