@@ -654,7 +654,7 @@ results = Dict("delta" => delta,
 # "h1_B" => policies.h1_B, "h2_B" => policies.h2_B, "hz_B" => policies.hz_B,
 # "h1_dist" => h1_dist, "h2_dist" => h2_dist, "hz_dist" => hz_dist,
 "h1" => h1, "h2" => h2, "hz" => hz,
-# "g_dist" => g_dist, "g" => g,
+"g_dist" => g_dist, "g" => g,
 # "mu_1" => mu_1, "mu_r" => mu_r, "mu_z" => mu_z,
 # Robust control under worst-case
 # "g_wc_dist" => g_wc_dist, "g_wc" => g_wc,
