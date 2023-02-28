@@ -88,9 +88,12 @@ g_R = g.sum(axis=1)*0.01
 g_Rb = gb.sum(axis=1)*0.01
 newinterval = trans(np.linspace(-18,18,1001))[1:] - trans(np.linspace(-18,18,1001))[:-1]
 g_R = (g_R*0.036).iloc[1:]/newinterval
-g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
 sns.lineplot(data = g_R,label = r"$g_R$")
-sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
+
+if rho<1.01 and rho > 0.99:
+    g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
+    sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
+
 ax.set_ylim([0.0,2.0])
 ax.set_ylabel(r'$g_R$')
 ax.set_xlabel(r'$R$')
@@ -103,7 +106,8 @@ fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_Z = g.sum(axis=0)*0.036
 g_Zb = gb.sum(axis=0)*0.036
 sns.lineplot(data = g_Z,label = r"$g_Z$")
-sns.lineplot(data = g_Zb,label = r"$g_Z, \rho =1$", ls = '--')
+if rho<1.01 and rho > 0.99:
+    sns.lineplot(data = g_Zb,label = r"$g_Z, \rho =1$", ls = '--')
 ax.set_ylim([0.0,3.0])
 ax.set_ylabel(r'$g_Z$')
 ax.set_xlabel(r'$Z$')
@@ -127,8 +131,9 @@ plt.close()
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = d1[0],label = r"$d_1$")
 sns.lineplot(data = d2[0],label = r"$d_2$")
-sns.lineplot(data = d1b[0],label = r"$d_1, \rho =1$", ls = '--')
-sns.lineplot(data = d2b[0],label = r"$d_2, \rho =1$", ls = '--')
+if rho<1.01 and rho > 0.99:
+    sns.lineplot(data = d1b[0],label = r"$d_1, \rho =1$", ls = '--')
+    sns.lineplot(data = d2b[0],label = r"$d_2, \rho =1$", ls = '--')
 ax.set_ylim([0.027,0.037])
 # ax.set_ylim([-0.01,0.05])
 ax.set_ylabel(r'$d$')
@@ -140,7 +145,8 @@ plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = V[0],label = r"$V$")
-sns.lineplot(data = Vb[0],label = r"$V, \rho =1$", ls = '--')
+if rho<1.01 and rho > 0.99: 
+    sns.lineplot(data = Vb[0],label = r"$V, \rho =1$", ls = '--')
 ax.set_ylim([-3.45,-3.05])
 ax.set_ylabel(r'$V$')
 ax.set_xlabel(r'$R$')
