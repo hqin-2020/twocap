@@ -98,7 +98,7 @@ ax.set_xlabel(r'$R$')
 ax.set_title(r'V, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$'+'='+str(rho))
 fig.tight_layout()
 
-fig.savefig('doc/' + figname+'/v.png', dpi = 400)
+fig.savefig(figname+'/v.png', dpi = 400)
 plt.close()
 
 
