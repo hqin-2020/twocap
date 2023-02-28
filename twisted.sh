@@ -8,7 +8,7 @@ do
         do  
             for ell_ex in 0.14285714285714285 0.055594409575544096
             do
-                for alpha_z_tilde_ex in 0.0
+                for alpha_z_tilde_ex in -0.005
                 do
                     job_name=symmetric_returns_${symmetric_returns}_state_dependent_xi_${state_dependent_xi}_optimize_over_ell_${optimize_over_ell}_ell_ex_${ell_ex}_alpha_z_tilde_ex_${alpha_z_tilde_ex}
                     mkdir -p ./job-outs/$job_name
