@@ -37,7 +37,7 @@ for Delta in ${Deltaarray[@]}; do
 #!/bin/bash
 
 #SBATCH --account=pi-lhansen
-#SBATCH --job-name=${Delta}_${fraction}
+#SBATCH --job-name=p_${Delta}_${fraction}
 #SBATCH --output=./job-outs/$job_name/${action_name}/Delta_${Delta}_frac_${fraction}/rho_${rho}_gamma_${gamma}_plot.out
 #SBATCH --error=./job-outs/$job_name/${action_name}/Delta_${Delta}_frac_${fraction}/rho_${rho}_gamma_${gamma}_plot.err
 #SBATCH --time=0-12:00:00

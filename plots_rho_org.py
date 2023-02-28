@@ -14,14 +14,14 @@ sns.set(font_scale = 1.0, rc={"grid.linewidth": 1,'grid.color': '#b0b0b0', 'axes
 import argparse
 parser = argparse.ArgumentParser(description="parameter settings")
 parser.add_argument("--Delta",type=float,default=1000.)
-parser.add_argument("--Fraction",type=float,default=0.005)
+parser.add_argument("--fraction",type=float,default=0.005)
 parser.add_argument("--gamma",type=float,default=8.0)
 parser.add_argument("--rho",type=float,default=1.00001)
 parser.add_argument("--dataname",type=str,default="tests")
 args = parser.parse_args()
 
 Delta = args.Delta
-Fraction = args.Fraction
+fraction = args.fraction
 gamma = args.gamma
 rho = args.rho
 dataname = args.dataname
