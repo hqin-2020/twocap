@@ -65,6 +65,19 @@ h1 = read_csv('h1')
 h2 = read_csv('h2')
 hz = read_csv('hz')
 V = read_csv('V')
+g = read_csv('g')
+
+fig, ax = plt.subplots(1,1,figsize = (4,4))
+g_R = g.sum(axis=1)*0.01
+g_Z = g.sum(axis=0)*0.036
+sns.lineplot(data = g_R,label = r"$g_R$")
+# ax.set_ylim([-0.01,0.18])
+ax.set_ylabel(r'$g_R$')
+ax.set_xlabel(r'$R$')
+ax.set_title(r'R density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
+fig.tight_layout()
+fig.savefig(figname+'/gR.png', dpi = 400)
+plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = h1[0],label = r"$-H_1$")
