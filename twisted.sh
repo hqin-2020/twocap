@@ -6,7 +6,7 @@ do
     do
         for optimize_over_ell in 0
         do  
-            for ell_ex in 0.14285714285714285 
+            for ell_ex in 0.14285714285714285 0.055594409575544096
             do
                 for alpha_z_tilde_ex in 0.0
                 do
