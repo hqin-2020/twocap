@@ -900,7 +900,6 @@ function value_function_twocapitals(ell::Float64,
 
          #V0[:, j] = range(v1, stop=v2, length=II);
          V0[:, j] = range(v2, stop=v2, length=II);
-         V0[:,j] = range(-5, stop=-4, length=II);
       end
 
       v = copy(V0);
