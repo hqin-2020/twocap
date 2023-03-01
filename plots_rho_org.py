@@ -83,6 +83,7 @@ hzb = read_benchmark('hz')
 Vb = read_benchmark('V')
 gb = read_benchmark('g')
 
+
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_R = g.sum(axis=1)*0.01
 g_Rb = gb.sum(axis=1)*0.01
@@ -94,13 +95,32 @@ sns.lineplot(data = g_R,label = r"$g_R$")
 #     g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
 #     sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
 
-ax.set_ylim([0.0,2.0])
+ax.set_ylim([0.0,4.0])
 ax.set_ylabel(r'$g_R$')
 ax.set_xlabel(r'$R$')
 ax.set_title(r'R density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
 fig.tight_layout()
 fig.savefig(figname+'/gR.png', dpi = 400)
 plt.close()
+
+
+fig, ax = plt.subplots(1,1,figsize = (4,4))
+g_l = g.sum(axis=1)*0.01
+g_lb = gb.sum(axis=1)*0.01
+sns.lineplot(data = g_l,label = r"$g_l$")
+
+# if rho<1.01 and rho > 0.99:
+#     g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
+#     sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
+
+ax.set_ylim([0.0,2.0])
+ax.set_ylabel(r'$g_l$')
+ax.set_xlabel(r'$l$')
+ax.set_title(r'l density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
+fig.tight_layout()
+fig.savefig(figname+'/gl.png', dpi = 400)
+plt.close()
+
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_Z = g.sum(axis=0)*0.036
