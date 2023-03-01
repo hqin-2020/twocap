@@ -530,7 +530,7 @@ function dstar_twocapitals!(d1::Array{Float64,2},
         end
 
         x0 = 0.03;
-        d1_root = find_zero(f, x0, Roots.Order1());
+        d1_root = find_zero(f, x0, Roots.Order1(), maxiters = 1000000);
         d2y = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1_root)/(1-p-Vr[i])).^(1/rho) - (1-p)*(A1-d1_root);
         d2_root = A2 - d2y/p;
         # d1_root = try
