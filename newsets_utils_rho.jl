@@ -9,7 +9,8 @@ using LinearAlgebra
 using SparseArrays
 using Interpolations
 using SuiteSparse
-
+using Random
+using Distributions
 
 mutable struct Baseline{T}
     alpha_z_hat::T
@@ -531,14 +532,26 @@ function dstar_twocapitals!(d1::Array{Float64,2},
         end
 
         x0 = 0.03;
-        try
-            d1_root = find_zero(f, x0, Roots.Order1());
-        catch
-            d1_root = x0;
-            println(i," d1 root not find, use initial value", x0)
-        end
+        d1_root = find_zero(f, x0, Roots.Order1());
         d2y = (delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1_root)/(1-p-Vr[i])).^(1/rho) - (1-p)*(A1-d1_root);
         d2_root = A2 - d2y/p;
+        # d1_root = try
+        #     find_zero(f, x0, Roots.Order1());
+        # catch lsp
+        #     println(lsp)
+        # end
+        # if d1_root === nothing
+        #     d1_root = rand(Uniform(0.027,0.037));
+        # end
+        # println(i," d1 root not find, use initial value: ", d1_root)
+        # d2_root = try
+        #     A2 - ((delta*(1-p)*exp.(V[i]*(rho-1))/(1-phi1*d1_root)/(1-p-Vr[i])).^(1/rho) - (1-p)*(A1-d1_root))/p;
+        # catch lsp
+        #     println(lsp)
+        # end
+        # if d2_root === nothing
+        #     d2_root = rand(Uniform(0.027,0.037));
+        # end
         d1[i] = d1_root;
         d2[i] = d2_root;
         
@@ -889,6 +902,7 @@ function value_function_twocapitals(ell::Float64,
 
          #V0[:, j] = range(v1, stop=v2, length=II);
          V0[:, j] = range(v2, stop=v2, length=II);
+         V0[:,j] = range(-5, stop=-4, length=II);
       end
 
       v = copy(V0);
