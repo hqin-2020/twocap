@@ -1,6 +1,7 @@
 #! /bin/bash
 
 Deltaarray=(10 20 100 500 1000 5000)
+Deltaarray=(30 50 150 10000)
 # fractionarray=(0.1 0.05 0.01 0.005 0.001 0.0005 0.0001)
 fractionarray=(0.0)
 
