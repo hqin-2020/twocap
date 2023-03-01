@@ -90,10 +90,9 @@ g_Rb = gb.sum(axis=1)*0.01
 newinterval = trans(np.linspace(-18,18,1001))[1:] - trans(np.linspace(-18,18,1001))[:-1]
 g_R = (g_R*0.036).iloc[1:]/newinterval
 sns.lineplot(data = g_R,label = r"$g_R$")
-
-# if rho<1.01 and rho > 0.99:
-#     g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
-#     sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
+if rho<1.01 and rho > 0.99 and gamma == 8.0:
+    g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
+    sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
 
 ax.set_ylim([0.0,4.0])
 ax.set_ylabel(r'$g_R$')
@@ -104,16 +103,20 @@ fig.savefig(figname+'/gR.png', dpi = 400)
 plt.close()
 
 
+gl = pd.DataFrame(npz['g'])
+gl.index = np.linspace(-18,18,1001)
+gl.columns = np.linspace(-1,1,201)
+glb = pd.DataFrame(benchmark['g'])
+glb.index = np.linspace(-18,18,1001)
+glb.columns = np.linspace(-1,1,201)
+
 fig, ax = plt.subplots(1,1,figsize = (4,4))
-g_l = g.sum(axis=1)*0.01
-g_lb = gb.sum(axis=1)*0.01
+g_l = gl.sum(axis=1)*0.01
+g_lb = glb.sum(axis=1)*0.01
 sns.lineplot(data = g_l,label = r"$g_l$")
-
-# if rho<1.01 and rho > 0.99:
-#     g_Rb = (g_Rb*0.036).iloc[1:]/newinterval
-#     sns.lineplot(data = g_Rb,label = r"$g_R, \rho =1$", ls = '--')
-
-ax.set_ylim([0.0,2.0])
+if rho<1.01 and rho > 0.99 and gamma == 8.0:
+    sns.lineplot(data = g_lb,label = r"$g_l, \rho =1$", ls = '--')
+ax.set_ylim([0.0,0.5])
 ax.set_ylabel(r'$g_l$')
 ax.set_xlabel(r'$l$')
 ax.set_title(r'l density, '+ '$\gamma=$'+str(gamma)+', '+'$\\rho$ ='+str(rho))
@@ -126,8 +129,8 @@ fig, ax = plt.subplots(1,1,figsize = (4,4))
 g_Z = g.sum(axis=0)*0.036
 g_Zb = gb.sum(axis=0)*0.036
 sns.lineplot(data = g_Z,label = r"$g_Z$")
-# if rho<1.01 and rho > 0.99:
-#     sns.lineplot(data = g_Zb,label = r"$g_Z, \rho =1$", ls = '--')
+if rho<1.01 and rho > 0.99 and gamma == 8.0:
+    sns.lineplot(data = g_Zb,label = r"$g_Z, \rho =1$", ls = '--')
 ax.set_ylim([0.0,3.0])
 ax.set_ylabel(r'$g_Z$')
 ax.set_xlabel(r'$Z$')
@@ -151,9 +154,9 @@ plt.close()
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = d1[0],label = r"$d_1$")
 sns.lineplot(data = d2[0],label = r"$d_2$")
-# if rho<1.01 and rho > 0.99:
-#     sns.lineplot(data = d1b[0],label = r"$d_1, \rho =1$", ls = '--')
-#     sns.lineplot(data = d2b[0],label = r"$d_2, \rho =1$", ls = '--')
+if rho<1.01 and rho > 0.99 and gamma == 8.0:
+    sns.lineplot(data = d1b[0],label = r"$d_1, \rho =1$", ls = '--')
+    sns.lineplot(data = d2b[0],label = r"$d_2, \rho =1$", ls = '--')
 ax.set_ylim([0.027,0.037])
 # ax.set_ylim([-0.01,0.05])
 ax.set_ylabel(r'$d$')
@@ -165,8 +168,8 @@ plt.close()
 
 fig, ax = plt.subplots(1,1,figsize = (4,4))
 sns.lineplot(data = V[0],label = r"$V$")
-# if rho<1.01 and rho > 0.99: 
-#     sns.lineplot(data = Vb[0],label = r"$V, \rho =1$", ls = '--')
+if rho<1.01 and rho > 0.99 and gamma == 8.0:
+    sns.lineplot(data = Vb[0],label = r"$V, \rho =1$", ls = '--')
 ax.set_ylim([-3.45,-3.05])
 ax.set_ylabel(r'$V$')
 ax.set_xlabel(r'$R$')
